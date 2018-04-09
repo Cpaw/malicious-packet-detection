@@ -48,4 +48,6 @@ def generate_dataset(data_path):
     dataset = pd.read_csv(data_path, names=col)
     labels = dataset["label"]
 
-    return dataset.drop(["label"], axis=1), labels
+     # 文字列とラベルを取り除く
+    drop_columns = ["protocol_type", "service", "flag", "label"]
+    return dataset.drop(drop_columns, axis=1), labels
