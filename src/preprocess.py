@@ -46,8 +46,12 @@ def generate_dataset(data_path):
            "label"]
 
     dataset = pd.read_csv(data_path, names=col)
-    labels = dataset["label"]
 
-     # 文字列とラベルを取り除く
+    # 正常なデータを0, 悪意のあるデータを1とする
+    labels = dataset["label"]
+    labels = labels.replace({"^.*normal.*": 0, "^(?!normal).*$": 1},
+                            regex=True)
+
+    # 文字列とラベルを取り除く
     drop_columns = ["protocol_type", "service", "flag", "label"]
     return dataset.drop(drop_columns, axis=1), labels
